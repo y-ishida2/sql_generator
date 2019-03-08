@@ -1,6 +1,9 @@
+require 'yaml'
+
 class SqlGenerator
-  def initialize
-    @table_name = 'sample_table'
+  def initialize(file_name)
+    table_data = YAML.load_file("./table_info/#{file_name}")
+    @table_name = table_data['table_name']
   end
 
   def generate_sql
@@ -14,6 +17,6 @@ class SqlGenerator
   end
 end
 
-sql_generator = SqlGenerator.new()
+sql_generator = SqlGenerator.new(ARGV[0])
 sql_generator.touch_file
 
