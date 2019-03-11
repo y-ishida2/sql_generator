@@ -1,6 +1,6 @@
 table_name: test_table
-amount_record: 10
-column:
+counts: 10
+columns:
   name: 'taro'
   age: 25
   bool: true
