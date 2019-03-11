@@ -1,5 +1,5 @@
 table_name: test_table
-counts: 10
+counts: 15
 columns:
   name: 'taro'
   age: 25
