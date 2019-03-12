@@ -9,6 +9,8 @@ class SqlGenerator
     puts "begin======================================"
     puts table_data['columns'].values
     puts table_data['columns'].values.join(",")
+    puts table_data['columns'].values.join("','")
+    puts table_data['columns'].values.gsub("'","''")
     puts table_data['columns'].values.to_s
     puts "end======================================"
     @columns_values = table_data['columns'].values.to_s
