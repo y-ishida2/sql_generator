@@ -3,29 +3,29 @@ require 'yaml'
 class SqlGenerator
   def initialize(file_name)
     unless File.exist?("./table_data/#{file_name}")
-      puts 'ファイル名が正しくありません。'
-      exit!
+      raise 'ファイル名が正しくありません。'
     end
+
     table_data = YAML.load_file("./table_data/#{file_name}")
-    @table_name = table_data['table_name']
-    @table_counts = table_data['counts']
-    @columns_keys = table_data['columns'].keys.join(', ')
-    puts "begin======================================"
-    puts table_data['columns'].values
-    puts table_data['columns'].values.join(",")
-    puts table_data['columns'].values.join("','")
-    puts table_data['columns'].values.gsub("'","''")
-    puts table_data['columns'].values.to_s
-    puts "end======================================"
-    @columns_values = table_data['columns'].values.to_s
-  rescue
-    puts "table_dataの形式が正しくありません。"
-    exit!
+
+    begin
+      @table_name = table_data['table_name']
+      @table_counts = table_data['counts']
+      @columns_keys = table_data['columns'].keys.join(', ')
+      @columns_values = table_data['columns'].values.to_s.gsub(/[\[\]]/, '').gsub(/"/, '\'')
+    rescue
+      raise 'table_dataの形式が正しくありません。'
+    end
+
+    # puts "begin======================================"
+    # puts table_data['columns'].values
+    # puts table_data['columns'].values.to_s
+    # puts table_data['columns'].values.to_s.gsub(/[\[\]]/, '')
+    # puts table_data['columns'].values.to_s.gsub(/[\[\]]/, '').gsub(/"/, '\'')
+    # puts "end======================================"
   end
 
   def generate_sql
-    #"INSERT INTO #{@table_name} ('column_name_1', 'column_name_2') VALUES ('hoge', 'piyo');\n" *
-    #@table_counts
     "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{@columns_values});\n" * @table_counts
   end
 
@@ -33,6 +33,7 @@ class SqlGenerator
     File.open("./created_sql/#{@table_name}.sql", "w") do |f|
       f.puts(self.generate_sql)
     end
+    puts "sql_fileが作られました！"
   end
 end
 
@@ -41,20 +42,11 @@ if __FILE__ == $0
     puts 'usage: $ ruby run.rb <file_name>'
     exit!
   end
- #  unless File.exist?("./table_data/#{ARGV[0]}")
- #    puts 'ファイル名が正しくありません。'
- #    exit!
- #  end
-  SqlGenerator.new(ARGV[0]).generate_file
 
-#   if ARGV.size != 1
-#     puts 'usage: $ ruby run.rb <file_name>'
-#     exit!
-#   elsif File.exist?("./table_data/#{ARGV[0]}")
-#     SqlGenerator.new(ARGV[0]).generate_file
-#   else
-#     puts 'ファイル名が正しくありません。'
-#     exit!
-#   end
+  begin
+    SqlGenerator.new(ARGV[0]).generate_file
+  rescue => e
+    puts e.message
+  end
 end
 

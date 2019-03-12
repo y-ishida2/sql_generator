@@ -1,0 +1,6 @@
+table_name: b1
+counts: 30
+columns:
+  title: 'test_title'
+  published_at: '2019-01-10'
+
