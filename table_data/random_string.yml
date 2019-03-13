@@ -1,0 +1,6 @@
+table_name: random_string
+counts: 30
+columns:
+  random_name: random(10)
+  random_japanese: random(6)
+
