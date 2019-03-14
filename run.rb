@@ -36,10 +36,14 @@ class SqlGenerator
           case value
           when /random/
             size = value.match(/\d+/)[0].to_i
-            value = SecureRandom.alphanumeric(size)
+            # value = SecureRandom.alphanumeric(size)
+            value = random_char(size)
           when /serial_num/
             ini = value.match(/\d+/)[0].to_i
             value = ini + i
+          when /hiragana/
+            size = value.match(/\d+/)[0].to_i
+            value = random_hiragana(size)
           end
         end
         columns_values << value
@@ -47,6 +51,18 @@ class SqlGenerator
       str << "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{columns_values});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
     end
     str
+  end
+
+# 現状arrayのsizeを超えるとダメ
+  def random_char(size)
+    charcter = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
+    charcter.sample(size).join
+  end
+
+  def random_hiragana(size)
+    hiragana = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふヘほまみむめもやゆよらりるれろわをん'
+    array = hiragana.split('')
+    array.sample(size).join
   end
 end
 

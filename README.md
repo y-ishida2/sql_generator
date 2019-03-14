@@ -4,3 +4,19 @@
 2. run.rb を叩く（usage: $ ruby run.rb <file_name>）
 3. created_sql にsqlファイルが作成される
 
+### yml雛形
+table_name: <table_name>
+counts: <レコード数>
+columns:
+  column_name: value
+  column_name: value
+  column_name: value
+
+- value
+  - ランダムな英数字を生成
+    - random(文字数)
+  - ランダムなひらがなを生成
+    - hiragana(文字数)
+  - auto_incrementな数字を生成
+    - serial_num(初期値)
+
