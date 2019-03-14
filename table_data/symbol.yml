@@ -1,0 +1,8 @@
+table_name: 'symbol_table'
+counts: 10
+columns:
+  sym_1: :random
+  sym_2: :sym_2
+  sym_3: :3
+  sym_4: random
+

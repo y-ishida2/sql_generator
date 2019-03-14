@@ -8,13 +8,11 @@ class SqlGenerator
     end
 
     table_data = YAML.load_file("./table_data/#{file_name}")
-
     begin
       @table_name = table_data['table_name']
       @record_counts = table_data['counts']
       @columns_keys = table_data['columns'].keys.join(', ')
-      @columns_values = table_data['columns'].values.to_s.gsub(/[\[\]]/, '').gsub(/"/, '\'')
-      @columns_values_test = table_data['columns'].values
+      @columns_values = table_data['columns'].values
     rescue
       raise 'table_dataの形式が正しくありません。'
     end
@@ -25,52 +23,30 @@ class SqlGenerator
       f.puts(generate_sql)
     end
     puts "sql_fileが作られました！"
-    # random_str
   end
 
   private
 
-  def random_str
-    str = ''
-    @record_counts.times do
-      @columns_values_test[0] = SecureRandom.alphanumeric(10)
-      str << "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{@columns_values_test});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
-    end
-    puts str
-  end
-
   def generate_sql
-    # "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{@columns_values});\n" * @record_counts
-
-    ### random_str
     str = ''
-    @record_counts.times do
-      @columns_values_test[0] = SecureRandom.alphanumeric(10)
-      str << "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{@columns_values_test});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
+    @record_counts.times do |i|
+      columns_values = []
+      @columns_values.each do |value|
+        if value.kind_of?(String)
+          case value
+          when /random/
+            size = value.match(/\d+/)[0].to_i
+            value = SecureRandom.alphanumeric(size)
+          when /serial_num/
+            ini = value.match(/\d+/)[0].to_i
+            value = ini + i
+          end
+        end
+        columns_values << value
+      end
+      str << "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{columns_values});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
     end
     str
-
-    ### times
-    # str = ''
-    # @record_counts.times do
-    #   str << "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{@columns_values});\n"
-    # end
-    # str
-
-    ### each
-    # str = ''
-    # (1..@record_counts).each do
-    #   str << "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{@columns_values});\n"
-    # end
-    # str
-
-    ### 初期値が欲しい時
-    # str = ''
-    # ini = 10
-    # (ini..@record_counts+ini-1).each do
-    #   str << "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{@columns_values});\n"
-    # end
-    # str
   end
 end
 
@@ -83,6 +59,7 @@ if __FILE__ == $0
   begin
     SqlGenerator.new(ARGV[0]).generate_file
   rescue => e
+    puts 'エラーが発生しました。'
     puts e.message
   end
 end
