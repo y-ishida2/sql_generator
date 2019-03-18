@@ -1,0 +1,13 @@
+table_name: string_method
+counts: 10
+columns:
+  string:
+    - random_char
+    - 6
+  string_2:
+    - random_hiragana
+    - 10
+  serial:
+    - serial_num
+    - 20
+
