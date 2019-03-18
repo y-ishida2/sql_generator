@@ -4,6 +4,7 @@ columns:
   random_name: random(10)
   random_japanese: random(6)
   random_hiragana: hiragana(5)
+  random_hiragana_over: hiragana(120)
   nomal_text: 'test_string'
   nomal_num: 20
   bool: true

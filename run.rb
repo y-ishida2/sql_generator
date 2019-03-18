@@ -55,14 +55,13 @@ class SqlGenerator
 
 # 現状arrayのsizeを超えるとダメ
   def random_char(size)
-    charcter = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
-    charcter.sample(size).join
+    character = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
+    (0...size).map { character[rand(character.size)] }.join
   end
 
   def random_hiragana(size)
-    hiragana = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふヘほまみむめもやゆよらりるれろわをん'
-    array = hiragana.split('')
-    array.sample(size).join
+    hiragana = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふヘほまみむめもやゆよらりるれろわをん'.split('')
+    (0...size).map { hiragana[rand(hiragana.size)] }.join
   end
 end
 
