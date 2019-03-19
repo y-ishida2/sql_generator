@@ -1,0 +1,19 @@
+table_name: data_type
+counts: 5
+columns:
+  string:
+    - return
+    - 'test_string'
+  integer:
+    - return
+    - 20
+  boolean:
+    - return
+    - true
+  date_column:
+    - return
+    - 2019-03-19
+  timestamp:
+    - return
+    - 2019-03-19 12:05:30
+

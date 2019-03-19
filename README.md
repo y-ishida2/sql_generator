@@ -5,8 +5,25 @@
 3. created_sql にsqlファイルが作成される
 
 ### yml雛形
-table_name: <table_name>
-counts: <レコード数>
+- table_name: <table_name>
+- counts: <レコード数>
+- columns:
+  - column_name:
+    - method_name: <method_name>
+    - arg: <arg>
+  - column_name:
+    - method_name: <method_name>
+    - arg: <arg>
+
+- method_name
+  - random_char
+    - ランダムな英数字を生成(引数は文字数)
+  - random_hiragana
+    - ランダムなひらがなを生成(引数は文字数)
+  - serial_num
+    - auto_incrementな数字を生成(引数は初期値)
+
+#### 一旦残しておく(2019/03/19)
 columns:
   column_name:
     - method_name
@@ -25,7 +42,6 @@ columns:
     - ランダムなひらがなを生成(引数は文字数)
   - serial_num
     - auto_incrementな数字を生成(引数は初期値)
-
 
 
 ##### 一旦残しておく

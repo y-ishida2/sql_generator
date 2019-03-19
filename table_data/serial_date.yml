@@ -1,0 +1,16 @@
+table_name: serial_date
+counts: 5
+columns:
+  date_column:
+    - serial_date
+    - 2019-03-19
+  timestamp_column:
+    - serial_timestamp
+    - 2019-03-19 12:05:30
+  timestamp_column_day:
+    - serial_timestamp_day
+    - 2019-03-19 12:05:30
+  hash_test:
+    hash_1: 'piyo'
+    hash_2: 20
+

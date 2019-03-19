@@ -20,47 +20,27 @@ class SqlGenerator
 
   def generate_file
     File.open("./created_sql/#{@table_name}.sql", "w") do |f|
-      f.puts(generate_sql)
+      @record_counts.times do |i|
+        f.puts(generate_sql(i))
+      end
     end
     puts "sql_fileが作られました！"
   end
 
   private
 
-  def generate_sql
-    str = ''
-    @record_counts.times do |i|
-      columns_values = []
-      @columns_values.each do |value|
-        columns_values << send(value[0], value[1], i)
-      end
-      str << "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{columns_values});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
-    end
-    str
-
-    # str = ''
-    # @record_counts.times do |i|
-    #   columns_values = []
-    #   @columns_values.each do |value|
-    #     if value.kind_of?(String)
-    #       case value
-    #       when /random/
-    #         size = value.match(/\d+/)[0].to_i
-    #         # value = SecureRandom.alphanumeric(size)
-    #         value = random_char(size)
-    #       when /serial_num/
-    #         ini = value.match(/\d+/)[0].to_i
-    #         value = ini + i
-    #       when /hiragana/
-    #         size = value.match(/\d+/)[0].to_i
-    #         value = random_hiragana(size)
-    #       end
-    #     end
-    #     columns_values << value
-    #   end
-    #   str << "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{columns_values});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
+  def generate_sql(i)
+    # columns_values = []
+    # @columns_values.each do |value|
+    #   columns_values << send(value[0], value[1], i)
     # end
-    # str
+    # p columns_values
+    # "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{columns_values});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
+
+    columns_values = @columns_values.map do |value|
+      send(value['method_name'], value['arg'], i)
+    end
+    "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{columns_values});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
   end
 
   def random_char(size, i)
@@ -76,6 +56,27 @@ class SqlGenerator
   def serial_num(ini, i)
     ini + i
   end
+
+  def serial_char(str, i)
+    "#{str}_#{i + 1}"
+  end
+
+  def return(value, i)
+    value
+  end
+
+  def serial_date(start, i)
+    (start + i).to_s
+    # (start >> i).to_s
+  end
+
+  def serial_timestamp(start, i)
+    start + i
+  end
+
+  def serial_timestamp_day(start, i)
+    start + i
+  end
 end
 
 if __FILE__ == $0
@@ -85,7 +86,9 @@ if __FILE__ == $0
   end
 
   begin
+    start_time = Time.now
     SqlGenerator.new(ARGV[0]).generate_file
+    puts "処理時間 => #{Time.now - start_time}s"
   rescue => e
     puts 'エラーが発生しました。'
     puts e.message

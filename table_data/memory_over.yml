@@ -1,0 +1,13 @@
+table_name: memory_over
+counts: 1000000
+columns:
+  string:
+    - random_char
+    - 60
+  string_2:
+    - random_hiragana
+    - 100
+  serial:
+    - serial_num
+    - 20
+
