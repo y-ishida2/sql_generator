@@ -1,5 +1,6 @@
 require 'yaml'
-require 'securerandom'
+require 'date'
+require 'time'
 
 class SqlGenerator
   def initialize(file_name)
@@ -36,6 +37,10 @@ class SqlGenerator
     "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{columns_values});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
   end
 
+  def return(value, i)
+    value
+  end
+
   def random_char(size, i)
     character = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
     (0...size).map { character[rand(character.size)] }.join
@@ -54,21 +59,39 @@ class SqlGenerator
     "#{str}_#{i + 1}"
   end
 
-  def return(value, i)
-    value
-  end
-
-  def serial_date(start, i)
+  def serial_date_day(start, i)
+    start = Date.parse(start)
     (start + i).to_s
-    # (start >> i).to_s
   end
 
-  def serial_timestamp(start, i)
-    start + i
+  def serial_date_month(start, i)
+    start = Date.parse(start)
+    (start >> i).to_s
+  end
+
+  def serial_date_year(start, i)
+    start = Date.parse(start)
+    (start >> 12 * i).to_s
+  end
+
+  def serial_timestamp_second(start, i)
+    start = Time.parse(start)
+    (start + i).to_s
+  end
+
+  def serial_timestamp_minite(start, i)
+    start = Time.parse(start)
+    (start + 60 * i).to_s
+  end
+
+  def serial_timestamp_hour(start, i)
+    start = Time.parse(start)
+    (start + (60 * 60) * i).to_s
   end
 
   def serial_timestamp_day(start, i)
-    start + i
+    start = Time.parse(start)
+    (start + (24 * 60 * 60) * i).to_s
   end
 end
 

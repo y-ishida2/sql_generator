@@ -1,0 +1,43 @@
+table_name: all_methods_table
+counts: 100
+columns:
+  return_string:
+    method_name: return
+    arg: '全てこの文字列'
+  return_int:
+    method_name: return
+    arg: 30
+  random_char_column:
+    method_name: random_char
+    arg: 6
+  random_hiragana_column:
+    method_name: random_hiragana
+    arg: 10
+  serial_num_column:
+    method_name: serial_num
+    arg: 15
+  serial_char_column:
+    method_name: serial_char
+    arg: 'test_user'
+  serial_date_day_column:
+    method_name: serial_date_day
+    arg: '2019-03-20'
+  serial_date_month_column:
+    method_name: serial_date_month
+    arg: '2019-03-20'
+  serial_date_year_column:
+    method_name: serial_date_year
+    arg: '2019-03-20'
+  serial_timestamp_second_column:
+    method_name: serial_timestamp_second
+    arg: '2019-03-20 12:00:00'
+  serial_timestamp_minite_column:
+    method_name: serial_timestamp_minite
+    arg: '2019-03-20 12:00:00'
+  serial_timestamp_hour_column:
+    method_name: serial_timestamp_hour
+    arg: '2019-03-20 12:00:00'
+  serial_timestamp_day_column:
+    method_name: serial_timestamp_day
+    arg: '2019-03-20 12:00:00'
+

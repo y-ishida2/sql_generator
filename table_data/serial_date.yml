@@ -1,16 +1,25 @@
 table_name: serial_date
-counts: 5
+counts: 20
 columns:
-  date_column:
-    - serial_date
-    - 2019-03-19
-  timestamp_column:
-    - serial_timestamp
-    - 2019-03-19 12:05:30
+  date_column_d:
+    method_name: serial_date_day
+    arg: 2019-02-19
+  date_column_m:
+    method_name: serial_date_month
+    arg: 2019-03-30
+  date_column_y:
+    method_name: serial_date_year
+    arg: 2019-02-19
+  timestamp_column_s:
+    method_name: serial_timestamp_second
+    arg: 2019-02-19 12:05:30
+  timestamp_column_m:
+    method_name: serial_timestamp_minite
+    arg: 2019-02-19 12:05:30
+  timestamp_column_h:
+    method_name: serial_timestamp_hour
+    arg: 2019-02-19 12:05:30
   timestamp_column_day:
-    - serial_timestamp_day
-    - 2019-03-19 12:05:30
-  hash_test:
-    hash_1: 'piyo'
-    hash_2: 20
+    method_name: serial_timestamp_day
+    arg: 2019-02-19 12:05:30
 
