@@ -30,13 +30,6 @@ class SqlGenerator
   private
 
   def generate_sql(i)
-    # columns_values = []
-    # @columns_values.each do |value|
-    #   columns_values << send(value[0], value[1], i)
-    # end
-    # p columns_values
-    # "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{columns_values});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
-
     columns_values = @columns_values.map do |value|
       send(value['method_name'], value['arg'], i)
     end
