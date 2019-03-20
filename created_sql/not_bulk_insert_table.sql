@@ -1,0 +1,10 @@
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('b88oxo', 20, '2019-03-20');
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('vjJCta', 21, '2019-03-21');
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('tN7s4w', 22, '2019-03-22');
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('XwDhib', 23, '2019-03-23');
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('itcgiK', 24, '2019-03-24');
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('tcSelQ', 25, '2019-03-25');
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('Ky1PKU', 26, '2019-03-26');
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('7clXeO', 27, '2019-03-27');
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('P08nbL', 28, '2019-03-28');
+INSERT INTO not_bulk_insert_table (random_string_column, auto_increment_int_column, date_columns) VALUES ('43VH8I', 29, '2019-03-29');

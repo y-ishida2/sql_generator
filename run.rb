@@ -12,6 +12,7 @@ class SqlGenerator
     begin
       @table_name = table_data['table_name']
       @record_counts = table_data['counts']
+      @insert_type = table_data['bulk']
       @columns_keys = table_data['columns'].keys.join(', ')
       @columns_values = table_data['columns'].values
     rescue
@@ -21,20 +22,37 @@ class SqlGenerator
 
   def generate_file
     File.open("./created_sql/#{@table_name}.sql", "w") do |f|
-      @record_counts.times do |i|
-        f.puts(generate_sql(i))
-      end
+      check_insert_type(f)
     end
     puts "sql_fileが作られました！"
   end
 
   private
 
-  def generate_sql(i)
-    columns_values = @columns_values.map do |value|
+  def check_insert_type(f)
+    @insert_type ? generate_bulk_insert(f) : generate_insert(f)
+  end
+
+  def generate_bulk_insert(f)
+    f.puts("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES ")
+    @record_counts.times do |i|
+      f.seek(-1, IO::SEEK_END)
+      f.puts("(#{generate_value(i)}), ".gsub(/[\[\]]/, '').gsub(/"/, '\''))
+    end
+    f.seek(-3, IO::SEEK_END)
+    f.write(";")
+  end
+
+  def generate_insert(f)
+    @record_counts.times do |i|
+      f.puts("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{generate_value(i)});\n".gsub(/[\[\]]/, '').gsub(/"/, '\''))
+    end
+  end
+
+  def generate_value(i)
+    @columns_values.map do |value|
       send(value['method_name'], value['arg'], i)
     end
-    "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{columns_values});\n".gsub(/[\[\]]/, '').gsub(/"/, '\'')
   end
 
   def return(value, i)
