@@ -1,8 +1,0 @@
-table_name: test_table
-counts: 15
-columns:
-  name: 'taro'
-  age: 25
-  bool: true
-  hoge: null
-
