@@ -1,4 +1,4 @@
-table_name: all_methods_table
+table_name: sample_table
 counts: 10
 bulk: false
 columns:
