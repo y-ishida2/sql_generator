@@ -18,63 +18,28 @@ class SqlGenerator
 
   def generate_file
     File.open("./created_sql/#{@table_name}.sql", "w+") do |f|
-      generate_insert(f)
-      # check_insert_type(f)
+      generate_sql(f)
     end
     puts "sql_fileが作られました！"
   end
 
   private
 
-  # def generate_bulk_insert(f)
-  #   record_counts = []
-  #   (@record_counts / @bulk_counts).times { record_counts << @bulk_counts }
-  #   record_counts << @record_counts % @bulk_counts if @record_counts % @bulk_counts != 0
-
-  #   index = 0
-
-  #   for bulk_counts in record_counts do
-  #     f.print("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES ")
-  #     bulk_counts.times do |i|
-  #       if i == bulk_counts - 1
-  #         value = "(#{generate_value(index)});\n"
-  #       else
-  #         value = "(#{generate_value(index)}), "
-  #       end
-  #       f.print(value.gsub(/[\[\]]/, '').gsub(/"/, '\''))
-  #       index += 1
-  #     end
-  #   end
-  # end
-
-  def generate_insert(f)
+  def generate_sql(f)
     record_counts = []
     (@record_counts / @bulk_counts).times { record_counts << @bulk_counts }
     record_counts << @record_counts % @bulk_counts if @record_counts % @bulk_counts != 0
 
     index = 0
-
     for bulk_counts in record_counts do
       f.print("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES ")
       bulk_counts.times do |i|
-        if i == bulk_counts - 1
-          value = "(#{generate_value(index)});\n"
-        else
-          value = "(#{generate_value(index)}), "
-        end
-        f.print(value.gsub(/[\[\]]/, '').gsub(/"/, '\''))
+        f.print("(#{generate_value(index)})".gsub(/[\[\]]/, '').gsub(/"/, '\''))
+        i == bulk_counts - 1 ? f.puts(';') : f.print(', ')
         index += 1
       end
     end
   end
-
-  # def generate_insert(f)
-  #   @record_counts.times do |i|
-  #     f.puts("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{generate_value(i)});\n"
-  #       .gsub(/[\[\]]/, '')
-  #       .gsub(/"/, '\''))
-  #   end
-  # end
 
   def generate_value(i)
     @columns_values.map do |value|
