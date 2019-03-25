@@ -18,6 +18,7 @@
 
 ### methods
   - return
+    - 引数をそのまま返す
   - random_char
     - ランダムな英数字を生成(引数は文字数)
   - random_hiragana
