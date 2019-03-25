@@ -16,8 +16,7 @@
     - method_name: <method_name>
     - arg: <arg>
 
-### method_name
-#### メソッドの詳しい使い方は`sample.yml`参照
+### methods
   - return
   - random_char
     - ランダムな英数字を生成(引数は文字数)
@@ -41,3 +40,5 @@
     - 1時間ずつ増加のTimeクラスを生成(引数は初期日)
   - serial_timestamp_day
     - 1日ずつ増加のTimeクラスを生成(引数は初期日)
+    
+#### メソッドの詳しい使い方は`sample.yml`参照
