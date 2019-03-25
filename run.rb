@@ -4,10 +4,6 @@ require 'time'
 
 class SqlGenerator
   def initialize(file_name)
-    unless File.exist?("./table_data/#{file_name}")
-      raise 'ファイル名が正しくありません。'
-    end
-
     table_data = YAML.load_file("./table_data/#{file_name}")
     @table_name = table_data['table_name']
     @record_counts = table_data['counts']
