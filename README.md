@@ -42,4 +42,4 @@
   - serial_timestamp_day
     - 1日ずつ増加のTimeクラスを生成(引数は初期日)
     
-#### メソッドの詳しい使い方は`sample.yml`参照
+##### メソッドの使用例は`sample.yml`参照
