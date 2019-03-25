@@ -1,6 +1,6 @@
 table_name:
 counts:
-bulk:
+bulk_counts: 1
 columns:
   column_name:
     method_name:

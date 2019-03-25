@@ -1,6 +1,6 @@
 table_name: sample_table
 counts: 10
-bulk: false
+bulk_counts: 1
 columns:
   return_string_column:
     method_name: return
