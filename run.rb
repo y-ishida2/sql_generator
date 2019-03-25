@@ -14,55 +14,67 @@ class SqlGenerator
     @bulk_counts = table_data['bulk_counts']
     @columns_keys = table_data['columns'].keys.join(', ')
     @columns_values = table_data['columns'].values
-    # raise if @bulk_counts > @record_counts
-    raise if @bulk_counts == 0
   end
 
   def generate_file
-    begin
-      File.open("./created_sql/#{@table_name}.sql", "w+") do |f|
-        check_insert_type(f)
-      end
-    rescue
-      raise 'table_dataの形式が正しくありません。'
+    File.open("./created_sql/#{@table_name}.sql", "w+") do |f|
+      generate_insert(f)
+      # check_insert_type(f)
     end
     puts "sql_fileが作られました！"
   end
 
   private
 
-  def check_insert_type(f)
-    @bulk_counts ? generate_bulk_insert(f) : generate_insert(f)
-  end
-
-  def generate_bulk_insert(f)
-  end
-
   # def generate_bulk_insert(f)
-  #   raise if @bulk_counts > @record_counts
-  #   while @record_counts > 0 do
+  #   record_counts = []
+  #   (@record_counts / @bulk_counts).times { record_counts << @bulk_counts }
+  #   record_counts << @record_counts % @bulk_counts if @record_counts % @bulk_counts != 0
+
+  #   index = 0
+
+  #   for bulk_counts in record_counts do
   #     f.print("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES ")
-  #     @bulk_counts.times do |i|
-  #       if i == @bulk_counts - 1
-  #         value = "(#{generate_value(i)});\n"
+  #     bulk_counts.times do |i|
+  #       if i == bulk_counts - 1
+  #         value = "(#{generate_value(index)});\n"
   #       else
-  #         value = "(#{generate_value(i)}), "
+  #         value = "(#{generate_value(index)}), "
   #       end
   #       f.print(value.gsub(/[\[\]]/, '').gsub(/"/, '\''))
+  #       index += 1
   #     end
-
-  #     @record_counts = @record_counts - @bulk_counts
-  #     @bulk_counts = @record_counts if @bulk_counts > @record_counts
   #   end
   # end
 
   def generate_insert(f)
-    @record_counts.times do |i|
-      f.puts("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{generate_value(i)});\n"
-        .gsub(/[\[\]]/, '')
-        .gsub(/"/, '\''))
+    record_counts = []
+    (@record_counts / @bulk_counts).times { record_counts << @bulk_counts }
+    record_counts << @record_counts % @bulk_counts if @record_counts % @bulk_counts != 0
+
+    index = 0
+
+    for bulk_counts in record_counts do
+      f.print("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES ")
+      bulk_counts.times do |i|
+        if i == bulk_counts - 1
+          value = "(#{generate_value(index)});\n"
+        else
+          value = "(#{generate_value(index)}), "
+        end
+        f.print(value.gsub(/[\[\]]/, '').gsub(/"/, '\''))
+        index += 1
+      end
     end
   end
+
+  # def generate_insert(f)
+  #   @record_counts.times do |i|
+  #     f.puts("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES (#{generate_value(i)});\n"
+  #       .gsub(/[\[\]]/, '')
+  #       .gsub(/"/, '\''))
+  #   end
+  # end
 
   def generate_value(i)
     @columns_values.map do |value|
