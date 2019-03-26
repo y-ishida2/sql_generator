@@ -1,11 +1,10 @@
-table_name:
-counts:
-bulk_counts: 1
+number_of:
+bulk: 1
 columns:
   column_name:
-    method_name:
-    arg:
+    type:
+    parameter:
   column_name:
-    method_name:
-    arg:
+    type:
+    parameter:
 

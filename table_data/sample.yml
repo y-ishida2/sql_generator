@@ -1,44 +1,43 @@
-table_name: sample_table
-counts: 10
-bulk_counts: 1
+number_of: 10
+bulk: 1
 columns:
   return_string_column:
-    method_name: return
-    arg: '全てこの文字列'
+    type: return
+    parameter: '全てこの文字列'
   return_int_column:
-    method_name: return
-    arg: 30
+   type: return
+    parameter: 30
   random_char_column:
-    method_name: random_char
-    arg: 6
+    type: random_char
+    parameter: 6
   random_hiragana_column:
-    method_name: random_hiragana
-    arg: 10
+    type: random_hiragana
+    parameter: 10
   serial_num_column:
-    method_name: serial_num
-    arg: 15
+    type: serial_num
+    parameter: 15
   serial_char_column:
-    method_name: serial_char
-    arg: 'test_user'
+    type: serial_char
+    parameter: 'test_user'
   serial_date_day_column:
-    method_name: serial_date_day
-    arg: '2019-03-20'
+    type: serial_date_day
+    parameter: '2019-03-20'
   serial_date_month_column:
-    method_name: serial_date_month
-    arg: '2019-03-20'
+    type: serial_date_month
+    parameter: '2019-03-20'
   serial_date_year_column:
-    method_name: serial_date_year
-    arg: '2019-03-20'
+    type: serial_date_year
+    parameter: '2019-03-20'
   serial_timestamp_second_column:
-    method_name: serial_timestamp_second
-    arg: '2019-03-20 12:00:00'
-  serial_timestamp_minite_column:
-    method_name: serial_timestamp_minite
-    arg: '2019-03-20 12:00:00'
+    type: serial_timestamp_second
+    parameter: '2019-03-20 12:00:00'
+  serial_timestamp_minute_column:
+    type: serial_timestamp_minite
+    parameter: '2019-03-20 12:00:00'
   serial_timestamp_hour_column:
-    method_name: serial_timestamp_hour
-    arg: '2019-03-20 12:00:00'
+    type: serial_timestamp_hour
+    parameter: '2019-03-20 12:00:00'
   serial_timestamp_day_column:
-    method_name: serial_timestamp_day
-    arg: '2019-03-20 12:00:00'
+    type: serial_timestamp_day
+    parameter: '2019-03-20 12:00:00'
 
