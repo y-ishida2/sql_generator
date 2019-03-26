@@ -1,5 +1,5 @@
 /created_sql/*
-!/created_sql/sample_table.sql
+!/created_sql/sample.sql
 
 /table_data/*
 !/table_data/template.yml
