@@ -14,13 +14,12 @@ class SqlGenerator
 
   def generate_file
     File.open("./created_sql/#{@table_name}.sql", "w+") do |f|
-      number_of = value_sizes_per_bulk
       index = 0
-      for bulk in number_of do
-        f.print(generate_insert)
-        bulk.times do |i|
-          f.print(generate_values(index))
-          i == bulk - 1 ? f.puts(';') : f.print(', ')
+      for size in value_sizes_per_bulk do
+        f.print(generate_insert_front_part)
+        size.times do |i|
+          f.print(generate_insert_value_part(index))
+          i == size - 1 ? f.puts(';') : f.print(', ')
           index += 1
         end
       end
@@ -31,17 +30,17 @@ class SqlGenerator
   private
 
   def value_sizes_per_bulk
-    number_of = []
-    (@number_of / @bulk).times { number_of << @bulk }
-    number_of << @number_of % @bulk if @number_of % @bulk != 0
-    number_of
+    sizes = []
+    (@number_of / @bulk).times { sizes << @bulk }
+    sizes << @number_of % @bulk if @number_of % @bulk != 0
+    sizes
   end
 
-  def generate_insert
+  def generate_insert_front_part
     "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES "
   end
 
-  def generate_values(i)
+  def generate_insert_value_part(i)
     values = @columns_values.map do |value|
       send(value['type'], value['parameter'], i)
     end
