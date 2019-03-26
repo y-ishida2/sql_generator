@@ -5,42 +5,47 @@ require 'time'
 class SqlGenerator
   def initialize(file_name)
     table_data = YAML.load_file("./table_data/#{file_name}")
-    @table_name = table_data['table_name']
-    @record_counts = table_data['counts']
-    @bulk_counts = table_data['bulk_counts']
+    @table_name = File.basename(file_name, '.*')
+    @number_of = table_data['number_of']
+    @bulk = table_data['bulk']
     @columns_keys = table_data['columns'].keys.join(', ')
     @columns_values = table_data['columns'].values
   end
 
   def generate_file
     File.open("./created_sql/#{@table_name}.sql", "w+") do |f|
-      generate_sql(f)
+      number_of = value_sizes_per_bulk
+      index = 0
+      for bulk in number_of do
+        f.print(generate_insert)
+        bulk.times do |i|
+          f.print(generate_values(index))
+          i == bulk - 1 ? f.puts(';') : f.print(', ')
+          index += 1
+        end
+      end
     end
     puts "sql_fileが作られました！"
   end
 
   private
 
-  def generate_sql(f)
-    record_counts = []
-    (@record_counts / @bulk_counts).times { record_counts << @bulk_counts }
-    record_counts << @record_counts % @bulk_counts if @record_counts % @bulk_counts != 0
-
-    index = 0
-    for bulk_counts in record_counts do
-      f.print("INSERT INTO #{@table_name} (#{@columns_keys}) VALUES ")
-      bulk_counts.times do |i|
-        f.print("(#{generate_value(index)})".gsub(/[\[\]]/, '').gsub(/"/, '\''))
-        i == bulk_counts - 1 ? f.puts(';') : f.print(', ')
-        index += 1
-      end
-    end
+  def value_sizes_per_bulk
+    number_of = []
+    (@number_of / @bulk).times { number_of << @bulk }
+    number_of << @number_of % @bulk if @number_of % @bulk != 0
+    number_of
   end
 
-  def generate_value(i)
-    @columns_values.map do |value|
-      send(value['method_name'], value['arg'], i)
+  def generate_insert
+    "INSERT INTO #{@table_name} (#{@columns_keys}) VALUES "
+  end
+
+  def generate_values(i)
+    values = @columns_values.map do |value|
+      send(value['type'], value['parameter'], i)
     end
+    "(#{values})".gsub(/[\[\]]/, '').gsub(/"/, '\'')
   end
 
   def return(value, i)
@@ -85,7 +90,7 @@ class SqlGenerator
     (start + i).to_s
   end
 
-  def serial_timestamp_minite(start, i)
+  def serial_timestamp_minute(start, i)
     start = Time.parse(start)
     (start + 60 * i).to_s
   end

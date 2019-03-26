@@ -1,11 +1,11 @@
 number_of: 10
-bulk: 1
+bulk: 3
 columns:
   return_string_column:
     type: return
     parameter: '全てこの文字列'
   return_int_column:
-   type: return
+    type: return
     parameter: 30
   random_char_column:
     type: random_char
@@ -32,7 +32,7 @@ columns:
     type: serial_timestamp_second
     parameter: '2019-03-20 12:00:00'
   serial_timestamp_minute_column:
-    type: serial_timestamp_minite
+    type: serial_timestamp_minute
     parameter: '2019-03-20 12:00:00'
   serial_timestamp_hour_column:
     type: serial_timestamp_hour
