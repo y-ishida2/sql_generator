@@ -1,5 +1,5 @@
 number_of: 10
-bulk: 3
+bulk: 1
 columns:
   return_string_column:
     type: return
