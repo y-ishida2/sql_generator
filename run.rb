@@ -4,7 +4,7 @@ require 'time'
 
 class SqlGenerator
   def initialize(file_name)
-    table_data = YAML.load_file("/Users/y_ishida2/boot_camp/table_data/#{file_name}")
+    table_data = YAML.load_file("#{__dir__}/table_data/#{file_name}")
     @table_name = File.basename(file_name, '.*')
     @number_of = table_data['number_of']
     @bulk = table_data['bulk']
@@ -13,7 +13,7 @@ class SqlGenerator
   end
 
   def generate_file
-    File.open("/Users/y_ishida2/boot_camp/created_sql/#{@table_name}.sql", "w+") do |f|
+    File.open("#{__dir__}/created_sql/#{@table_name}.sql", "w+") do |f|
       index = 0
       for size in value_sizes_per_bulk do
         f.print(generate_insert_front_part)
