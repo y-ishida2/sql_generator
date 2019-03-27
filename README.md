@@ -1,7 +1,7 @@
 # sql_generator
 ## how to use
 1. table_data にテーブルデータを記入
-2. run.rb を叩く（usage: $ ruby run.rb <file_name>）
+2. sql_generator.rb を叩く（usage: $ ruby sql_generator.rb <file_name>）
 3. created_sql にsqlファイルが作成される
 
 ## yml雛形

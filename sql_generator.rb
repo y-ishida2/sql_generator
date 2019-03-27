@@ -108,7 +108,7 @@ end
 
 if __FILE__ == $0
   unless ARGV.size == 1
-    puts 'usage: $ ruby run.rb <file_name>'
+    puts 'usage: $ ruby sql_generator.rb <file_name>'
     exit!
   end
 
