@@ -3,6 +3,8 @@ require 'date'
 require 'time'
 
 class SqlGenerator
+  attr_reader :number_of, :bulk
+
   def initialize(file_name)
     @base_dir = __dir__
     table_data = YAML.load_file("#{@base_dir}/table_data/#{file_name}")
@@ -22,13 +24,20 @@ class SqlGenerator
           f.print(generate_insert_value_part(index))
           i == size - 1 ? f.puts(';') : f.print(', ')
           index += 1
+          progress_bar(index)
         end
       end
     end
-    puts "sql_fileが作られました！"
+    puts " (Done)"
   end
 
   private
+
+  def progress_bar(i)
+    progress =  i * 100 / @number_of
+    progress_bar = "#" * progress
+    print "\r[#{progress_bar.ljust(100, ".")}] #{progress}%"
+  end
 
   def value_sizes_per_bulk
     sizes = []
@@ -114,8 +123,9 @@ if __FILE__ == $0
 
   begin
     start_time = Time.now
-    SqlGenerator.new(ARGV[0]).generate_file
-    puts "処理時間 => #{Time.now - start_time}s"
+    sql_generator = SqlGenerator.new(ARGV[0])
+    sql_generator.generate_file
+    puts "[ 処理時間 => #{(Time.now - start_time).round(3)}s, レコード数 => #{sql_generator.number_of}, バルクサイズ => #{sql_generator.bulk} ]"
   rescue => e
     puts 'エラーが発生しました。'
     puts e.message
