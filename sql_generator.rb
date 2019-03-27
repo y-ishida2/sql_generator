@@ -33,12 +33,6 @@ class SqlGenerator
 
   private
 
-  def progress_bar(i)
-    progress =  i * 100 / @number_of
-    progress_bar = "#" * progress
-    print "\r[#{progress_bar.ljust(100, ".")}] #{progress}%"
-  end
-
   def value_sizes_per_bulk
     sizes = []
     (@number_of / @bulk).times { sizes << @bulk }
@@ -55,6 +49,12 @@ class SqlGenerator
       send(value['type'], value['parameter'], i)
     end
     "(\'#{values.join('\', \'')}\')"
+  end
+
+  def progress_bar(i)
+    progress =  i * 100 / @number_of
+    progress_bar = "#" * progress
+    print "\r[#{progress_bar.ljust(100, ".")}] #{progress}%"
   end
 
   def return(value, i)
